@@ -8,7 +8,6 @@ import (
 	"pomodoro_cli/internal/errors"
 )
 
-// Config holds application configuration
 type Config struct {
 	WorkDuration     time.Duration
 	BreakDuration    time.Duration
@@ -16,7 +15,6 @@ type Config struct {
 	MaxSessionTime   time.Duration
 }
 
-// DefaultConfig returns default configuration values
 func DefaultConfig() *Config {
 	return &Config{
 		WorkDuration:     25 * time.Minute,
@@ -26,7 +24,6 @@ func DefaultConfig() *Config {
 	}
 }
 
-// ParseArgs parses command line arguments and returns configuration
 func ParseArgs() (*Config, error) {
 	config := DefaultConfig()
 
@@ -43,7 +40,6 @@ func ParseArgs() (*Config, error) {
 		}
 	}
 
-	// Check for hour flag
 	useHours := false
 	if len(os.Args) == 4 {
 		if os.Args[3] == "-h" {
@@ -59,19 +55,16 @@ func ParseArgs() (*Config, error) {
 		}
 	}
 
-	// Parse work time
 	workTime, err := parseTimeArg(os.Args[1], "work_time")
 	if err != nil {
 		return nil, err
 	}
 
-	// Parse break time
 	breakTime, err := parseTimeArg(os.Args[2], "break_time")
 	if err != nil {
 		return nil, err
 	}
 
-	// Convert to durations with validation
 	var workDuration, breakDuration time.Duration
 	if useHours {
 		workDuration = time.Duration(workTime) * time.Hour
@@ -81,7 +74,6 @@ func ParseArgs() (*Config, error) {
 		breakDuration = time.Duration(breakTime) * time.Minute
 	}
 
-	// Validate maximum session times
 	if workDuration > config.MaxSessionTime {
 		return nil, &errors.AppError{
 			Code:    errors.ErrInvalidDuration,
@@ -110,7 +102,6 @@ func ParseArgs() (*Config, error) {
 	return config, nil
 }
 
-// parseTimeArg parses a time argument and validates it
 func parseTimeArg(arg, name string) (int, error) {
 	value, err := strconv.Atoi(arg)
 	if err != nil {

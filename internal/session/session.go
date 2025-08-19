@@ -84,7 +84,6 @@ func (sm *SessionManager) setupSignalHandling() {
 	}()
 }
 
-// RunSession runs a single session
 func (sm *SessionManager) RunSession(sessionType SessionType) error {
 	var duration time.Duration
 	var label string
@@ -124,7 +123,6 @@ func (sm *SessionManager) RunSession(sessionType SessionType) error {
 			remaining := time.Until(session.EndTime)
 
 			if remaining <= 0 {
-				// Session completed
 				session.Completed = true
 				sm.sessions = append(sm.sessions, session)
 
@@ -159,13 +157,11 @@ func (sm *SessionManager) RunSession(sessionType SessionType) error {
 						"error": err.Error(),
 					},
 				))
-				// Continue without display updates
 			}
 		}
 	}
 }
 
-// RunPomodoroCycle runs the main pomodoro cycle
 func (sm *SessionManager) RunPomodoroCycle() error {
 	cycle := 0
 
@@ -181,26 +177,22 @@ func (sm *SessionManager) RunPomodoroCycle() error {
 			"cycle": cycle,
 		})
 
-		// Work session
 		if err := sm.RunSession(WorkSession); err != nil {
 			return fmt.Errorf("work session failed: %w", err)
 		}
 
-		// Check if we should continue
 		select {
 		case <-sm.ctx.Done():
 			return fmt.Errorf("pomodoro cycle cancelled")
 		default:
 		}
 
-		// Break session
 		if err := sm.RunSession(BreakSession); err != nil {
 			return fmt.Errorf("break session failed: %w", err)
 		}
 	}
 }
 
-// GetStats returns session statistics
 func (sm *SessionManager) GetStats() map[string]interface{} {
 	completed := sm.getCompletedSessions()
 	workSessions := 0
@@ -228,7 +220,6 @@ func (sm *SessionManager) GetStats() map[string]interface{} {
 	}
 }
 
-// getCompletedSessions returns only completed sessions
 func (sm *SessionManager) getCompletedSessions() []Session {
 	var completed []Session
 	for _, session := range sm.sessions {
@@ -239,11 +230,9 @@ func (sm *SessionManager) getCompletedSessions() []Session {
 	return completed
 }
 
-// Close cleans up resources
 func (sm *SessionManager) Close() error {
 	sm.cancel()
 
-	// Log final stats
 	stats := sm.GetStats()
 	sm.logger.LogInfo("Session manager closing", stats)
 
