@@ -12,7 +12,7 @@ A command-line Pomodoro timer.
 ### Build from Source
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/moonLight-7k/pomodoro_cli.git
 cd pomodoro_cli
 make build
 ```
