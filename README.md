@@ -1,4 +1,4 @@
-# 🍅 Pomodoro CLI
+# 🍅 Pomodoro CLI (Vibe Coded)
 
 A command-line Pomodoro timer.
 
