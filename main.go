@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	workDuration  = 1 * time.Minute
-	breakDuration = 1 * time.Minute
+	workDuration  = 2 * time.Minute
+	breakDuration = 5 * time.Minute
 )
 
 func runSession(duration time.Duration, label string) {
@@ -29,7 +29,7 @@ func runSession(duration time.Duration, label string) {
 	)
 
 	ticker := time.NewTicker(1 * time.Second)
-	defer ticker.Stop() [focus/work time]
+	defer ticker.Stop()
 
 	end := time.Now().Add(duration)
 	for range ticker.C {

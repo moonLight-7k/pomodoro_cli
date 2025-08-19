@@ -1,9 +1,11 @@
-package config
+package config_test
 
 import (
 	"os"
-	"pomodoro_cli/internal/errors"
 	"testing"
+
+	"pomodoro_cli/internal/config"
+	"pomodoro_cli/internal/errors"
 )
 
 func TestParseArgs(t *testing.T) {
@@ -31,7 +33,7 @@ func TestParseArgs(t *testing.T) {
 			defer func() { os.Args = originalArgs }()
 
 			os.Args = tt.args
-			_, err := ParseArgs()
+			_, err := config.ParseArgs()
 
 			if (err != nil) != tt.wantErr {
 				t.Errorf("ParseArgs() error = %v, wantErr %v", err, tt.wantErr)

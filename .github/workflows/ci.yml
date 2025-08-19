@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, staging]
   pull_request:
     branches: [main]
   release:
@@ -80,7 +80,7 @@ jobs:
       - name: Run Gosec Security Scanner
         uses: securecodewarrior/github-action-gosec@master
         with:
-          args: "./..."
+          args: './...'
 
   build:
     name: Build
