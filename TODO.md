@@ -1,5 +1,7 @@
 # TODO - Pomodoro CLI
 
+- [] add alias for `pomodoro` command
+
 ## 🐛 Issues Found (Priority: High)
 
 ### Code & Architecture Issues
