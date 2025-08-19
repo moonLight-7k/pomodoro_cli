@@ -5,6 +5,7 @@
 # Variables
 BINARY_NAME=pomodoro
 MAIN_PACKAGE=./cmd/pomodoro
+INSTALL_PACKAGE=pomodoro_cli/cmd/pomodoro
 BUILD_DIR=./bin
 VERSION=$(shell git describe --tags --always --dirty 2>/dev/null || echo "dev")
 LDFLAGS=-ldflags "-X main.version=$(VERSION)"
@@ -40,7 +41,7 @@ clean:
 # Install the binary to GOPATH/bin
 install:
 	@echo "Installing $(BINARY_NAME)..."
-	go install $(LDFLAGS) $(MAIN_PACKAGE)
+	go install $(LDFLAGS) $(INSTALL_PACKAGE)
 
 # Run the application with default arguments
 run:
