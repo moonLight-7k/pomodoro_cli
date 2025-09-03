@@ -95,9 +95,16 @@ func (t *Terminal) GetColors() Colors {
 }
 
 func formatDuration(d time.Duration) string {
-	minutes := int(d.Minutes())
-	seconds := int(d.Seconds()) % 60
-	return fmt.Sprintf("%dm%02ds", minutes, seconds)
+	d = d.Round(time.Second)
+	hours := int(d / time.Hour)
+	minutes := int(d % time.Hour / time.Minute)
+	seconds := int(d % time.Minute / time.Second)
+	if hours > 0 {
+		return fmt.Sprintf("%dh%02dm%02ds", hours, minutes, seconds)
+	} else if minutes > 0 {
+		return fmt.Sprintf("%dm%02ds", minutes, seconds)
+	}
+	return fmt.Sprintf("%02ds", seconds)
 }
 
 func (t *Terminal) DrawProgressBar(progress float64, width int) string {
