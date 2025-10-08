@@ -1,11 +1,11 @@
 # Pomodoro CLI Makefile
 
-.PHONY: build test clean install run lint format help
+.PHONY: build test test-coverage clean install run lint format vet build-all dev-setup check package help
 
 # Variables
 BINARY_NAME=pomodoro
 MAIN_PACKAGE=./cmd/pomodoro
-INSTALL_PACKAGE=pomodoro_cli/cmd/pomodoro
+INSTALL_PACKAGE=./cmd/pomodoro
 BUILD_DIR=./bin
 VERSION=$(shell git describe --tags --always --dirty 2>/dev/null || echo "dev")
 LDFLAGS=-ldflags "-X main.version=$(VERSION)"
@@ -104,7 +104,7 @@ package: clean build-all
 	cd $(BUILD_DIR) && tar -czf releases/$(BINARY_NAME)-darwin-arm64.tar.gz $(BINARY_NAME)-darwin-arm64
 	
 	# Create zip for Windows
-	cd $(BUILD_DIR) && zip releases/$(BINARY_NAME)-windows-amd64.zip $(BINARY_NAME)-windows-amd64.exe
+	cd $(BUILD_DIR) && (which zip > /dev/null && zip releases/$(BINARY_NAME)-windows-amd64.zip $(BINARY_NAME)-windows-amd64.exe || tar -czf releases/$(BINARY_NAME)-windows-amd64.tar.gz $(BINARY_NAME)-windows-amd64.exe)
 	
 	@echo "Release packages created in $(BUILD_DIR)/releases/"
 
